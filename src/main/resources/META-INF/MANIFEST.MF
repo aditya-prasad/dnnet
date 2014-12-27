@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Built-By: Aditya Prasad
+Main-Class: ml.dnnet.client.Main
