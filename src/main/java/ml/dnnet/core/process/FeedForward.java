@@ -25,6 +25,7 @@ public class FeedForward implements Function<DoubleMatrix, LabelledDataPoint>
         {
             NeuronLayer currentLayer = layers.get(layerIndex);
             input = currentLayer.getActivations(currentLayer.getInputs(input));
+            //System.out.println("Layer " + layerIndex + " : Activations = " + input);
         }
 
         input = VectorUtil.removeIntercept(input);

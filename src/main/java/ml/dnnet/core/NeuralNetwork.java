@@ -5,7 +5,7 @@ import ml.dnnet.commons.data.UnlabelledData;
 
 public interface NeuralNetwork
 {
-    public void train(LabelledData labelledData) throws Exception;
+    public int train(LabelledData labelledData) throws Exception;
 
     public LabelledData predict(UnlabelledData unlabelledData) throws Exception;
 

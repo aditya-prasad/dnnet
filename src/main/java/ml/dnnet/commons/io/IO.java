@@ -26,11 +26,11 @@ public class IO
     {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Enter Input file: ");
-        String xSource = in.readLine();
+        //System.out.print("Enter Input file: ");
+        String xSource = "hdfs://192.168.0.106:9000/datasets/xor_in.csv"; //in.readLine();
 
-        System.out.print("Enter Target Output file: ");
-        String ySource = in.readLine();
+        //System.out.print("Enter Target Output file: ");
+        String ySource = "hdfs://192.168.0.106:9000/datasets/xor_out.csv"; //in.readLine();
 
         JavaRDD<String> xRawRDD = sc.textFile(xSource, sc.textFile$default$2()).toJavaRDD();
         JavaRDD<String> yRawRDD = sc.textFile(ySource, sc.textFile$default$2()).toJavaRDD();
@@ -51,8 +51,8 @@ public class IO
     {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Enter Input file: ");
-        String xSource = in.readLine();
+        //System.out.print("Enter Input file: ");
+        String xSource = "hdfs://192.168.0.106:9000/datasets/xor_test.csv"; //in.readLine();in.readLine();
 
         JavaRDD<String> xRawRDD = sc.textFile(xSource, sc.textFile$default$2()).toJavaRDD();
 

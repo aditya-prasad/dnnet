@@ -6,11 +6,14 @@ import ml.dnnet.commons.util.ListUtil;
 import ml.dnnet.commons.util.VectorUtil;
 import ml.dnnet.core.NeuronLayer;
 import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.Function2;
 import org.jblas.DoubleMatrix;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class BackPropagate implements Function<LabelledDataPoint, List<DoubleMatrix>>
+public class BackPropagate implements Function<LabelledDataPoint, List<DoubleMatrix>>,
+        Function2<List<DoubleMatrix>, List<DoubleMatrix>, List<DoubleMatrix>>
 {
     private List<NeuronLayer> layers;
     private FeedForward feedForward;
@@ -61,6 +64,7 @@ public class BackPropagate implements Function<LabelledDataPoint, List<DoubleMat
                     deltaPartOne = VectorUtil.removeIntercept(deltaPartOne);
 
                     DoubleMatrix delta = deltaPartOne.mul(inputDerivative);
+
                     deltas.set(layerIndex, delta);
                 }
 
@@ -80,5 +84,27 @@ public class BackPropagate implements Function<LabelledDataPoint, List<DoubleMat
         DoubleMatrix input = labelledDataPoint.getX();
         DoubleMatrix output = labelledDataPoint.getY();
         return run(input, output);
+    }
+
+    @Override
+    public List<DoubleMatrix> call(List<DoubleMatrix> doubleMatrixes, List<DoubleMatrix> doubleMatrixes2) throws Exception
+    {
+        List<DoubleMatrix> reduced = new ArrayList<>();
+        int count = doubleMatrixes.size();
+        for(int i=0; i<count; i++)
+        {
+            DoubleMatrix m1 = doubleMatrixes.get(i);
+            DoubleMatrix m2 = doubleMatrixes2.get(i);
+
+            if(m1 == DoubleMatrix.EMPTY)
+            {
+                reduced.add(new DoubleMatrix());
+            }
+            else
+            {
+                reduced.add(m1.add(m2));
+            }
+        }
+        return reduced;
     }
 }

@@ -5,6 +5,7 @@ import ml.dnnet.commons.transferfunction.TransferFunction;
 import ml.dnnet.commons.util.VectorUtil;
 import org.jblas.DoubleMatrix;
 
+import javax.xml.transform.Source;
 import java.io.Serializable;
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class NeuronLayer implements Serializable
     {
         if (!isInput())
         {
+            //System.out.println(weights + " X " + prevLayerActivations);
             DoubleMatrix inputs = weights.mmul(prevLayerActivations);
             return inputs;
         }
@@ -87,5 +89,40 @@ public class NeuronLayer implements Serializable
     public TransferFunction getTransferFunction()
     {
         return transferFunction;
+    }
+
+    public void updateWeights(DoubleMatrix deltaWeights)
+    {
+        if (!isInput())
+        {
+            weights.addi(deltaWeights);
+        }
+    }
+
+    public void print()
+    {
+        System.out.print("Layer: " + layerId + " (" + transferFunction.toString() + ")");
+        if (isInput())
+        {
+            System.out.println(" [Input]");
+        }
+        else if (isOutput())
+        {
+            System.out.println(" [Output]");
+        }
+        else
+        {
+            System.out.println();
+        }
+        int rowCount = weights.rows;
+        if(rowCount == 0)
+        {
+            System.out.println("[No Weights]");
+        }
+        for(int i=0; i<rowCount; i++)
+        {
+            System.out.println(weights.getRow(i));
+        }
+        System.out.println();
     }
 }

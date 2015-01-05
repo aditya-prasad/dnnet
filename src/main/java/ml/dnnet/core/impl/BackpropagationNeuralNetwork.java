@@ -10,11 +10,14 @@ import ml.dnnet.core.NeuralNetwork;
 import ml.dnnet.core.NeuronLayer;
 import ml.dnnet.core.process.BackPropagate;
 import ml.dnnet.core.process.FeedForward;
+import ml.dnnet.core.process.NumericalGradient;
+import ml.dnnet.core.process.Test;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.jblas.DoubleMatrix;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,19 +35,56 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
         initLayers();
     }
 
-    @Override
-    public void train(LabelledData labelledData) throws Exception
+    public double calcCost(double target, double calculated)
     {
-        System.out.println("\nTraining...\n");
+        return 0.5 * Math.pow((target - calculated), 2.0);
+    }
 
-        JavaRDD<LabelledDataPoint> data = labelledData.getData();
-        JavaRDD<List<DoubleMatrix>> deltaWeightsRDD = data.map(new BackPropagate(layers));
-        System.out.println(deltaWeightsRDD.collect());
+    public void run(LabelledData labelledData) throws Exception
+    {
+        JavaRDD<LabelledDataPoint> completeData = labelledData.getData();
 
-        /*
+        long batchSize = completeData.count();
+        System.out.println("Batch Size = " + batchSize);
+
+        JavaRDD<List<DoubleMatrix>> numericalDerivativeRDD = completeData.map(new NumericalGradient(layers));
+        List<DoubleMatrix> neumericalDerivatives = numericalDerivativeRDD.reduce(new BackPropagate(layers));
+
+        JavaRDD<List<DoubleMatrix>> weightDerivativeRDD = completeData.map(new BackPropagate(layers));
+        List<DoubleMatrix> weightDerivatives = weightDerivativeRDD.reduce(new BackPropagate(layers));
+
+        for (int i = 0; i < weightDerivatives.size(); i++)
+        {
+            System.out.println("Backpropagation Derivative " + i + " : " + (weightDerivatives.get(i).mul(1.0 / batchSize)));
+            System.out.println("Neumerical Derivative " + i + "      : " + (neumericalDerivatives.get(i).mul(1.0 / batchSize)));
+            System.out.println();
+        }
+    }
+
+    @Override
+    public int train(LabelledData labelledData) throws Exception
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        JavaRDD<LabelledDataPoint> completeData = labelledData.getData();
+        completeData.cache();
+
+        System.out.println("\nTraining Started");
+        System.out.println("Learning Rate = " + Constants.ETA);
+        System.out.println("Maximum Epochs = " + Constants.MAX_EPOCHS);
+        System.out.println();
+
+        System.out.println();
+
+        for (int i = 0; i < layers.size(); i++)
+        {
+            layers.get(i).print();
+        }
+        System.out.println();
+
         for (int epoch = 1; epoch <= Constants.MAX_EPOCHS; epoch++)
         {
-            JavaRDD<LabelledDataPoint> data = labelledData.getData();
+            JavaRDD<LabelledDataPoint> data = completeData;
 
             for (int batchIndex = 0; batchIndex < 10; batchIndex++)
             {
@@ -52,10 +92,67 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
                 JavaRDD<LabelledDataPoint> currentBatch = data.sample(false, sampleFraction);
                 data = data.subtract(currentBatch);
 
-                JavaRDD<List<DoubleMatrix>> deltaWeightsRDD = currentBatch.map(new BackPropagate(layers));
-                JavaRDD<List<DoubleMatrix>> aggregatedDeltaWeights = deltaWeightsRDD.reduce(new BackPropagate(layers));
+                long batchSize = currentBatch.count();
+
+                JavaRDD<List<DoubleMatrix>> weightDerivativeRDD = currentBatch.map(new BackPropagate(layers));
+                List<DoubleMatrix> weightDerivatives = weightDerivativeRDD.reduce(new BackPropagate(layers));
+
+                for (int i = 0; i < weightDerivatives.size(); i++)
+                {
+                    DoubleMatrix weightDerivative = weightDerivatives.get(i);
+                    weightDerivative.muli((1.0 / batchSize));
+
+                    weightDerivatives.set(i, weightDerivative);
+
+                    DoubleMatrix deltaWeight = weightDerivative.mul((-1.0 * Constants.ETA));
+                    //System.out.println("Max = " + deltaWeight.max() + " ; Min = " + deltaWeight.min());
+                    layers.get(i).updateWeights(deltaWeight);
+                    layers.get(i).print();
+                }
+                //System.out.println();
+
+                System.out.print("\nProcees? [Y]");
+                String choice = br.readLine();
+                if (choice.equalsIgnoreCase("n"))
+                {
+                    System.exit(0);
+                }
+
+
+                if (isConverged(weightDerivatives))
+                {
+                    for (int i = 0; i < layers.size(); i++)
+                    {
+                        layers.get(i).print();
+                    }
+                    System.out.println();
+                    return epoch;
+                }
             }
-        }*/
+
+            if (epoch % 10 == 0)
+            {
+                System.out.println("Completed " + epoch + " iterations");
+
+            }
+
+            JavaRDD<DoubleMatrix> errorRDD = completeData.map(new Test(new FeedForward(layers)));
+            List<DoubleMatrix> errorList = errorRDD.collect();
+            double error = 0.0;
+            for (DoubleMatrix d : errorList)
+            {
+                error += d.sum();
+            }
+            System.out.println("Error = " + 0.5 * (error / errorList.size()));
+        }
+
+        for (int i = 0; i < layers.size(); i++)
+        {
+            layers.get(i).print();
+        }
+        System.out.println();
+
+        return -1;
     }
 
     @Override
@@ -63,7 +160,7 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
     {
         FeedForward feedForward = new FeedForward(layers);
         JavaRDD<DoubleMatrix> input = unlabelledData.getData();
-        JavaRDD<LabelledDataPoint> predicted = input.map(new FeedForward(layers));
+        JavaRDD<LabelledDataPoint> predicted = input.map(feedForward);
         return new LabelledData(predicted);
     }
 
@@ -109,4 +206,20 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
         }
     }
 
+    private boolean isConverged(List<DoubleMatrix> weightDerivatives)
+    {
+        int count = weightDerivatives.size();
+        for (int i = 0; i < count; i++)
+        {
+            DoubleMatrix weightDerivative = weightDerivatives.get(i);
+            double absMinVal = Math.abs(weightDerivative.min());
+            double absMaxVal = Math.abs(weightDerivative.max());
+
+            if (absMinVal > Constants.WEIGHT_DERIVATIVE_CUTOFF || absMaxVal > Constants.WEIGHT_DERIVATIVE_CUTOFF)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

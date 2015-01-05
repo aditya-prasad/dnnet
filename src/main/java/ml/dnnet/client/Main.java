@@ -36,9 +36,18 @@ public class Main
         BackpropagationNeuralNetwork nnet = new BackpropagationNeuralNetwork(topography, NeuralNetwork.Mode.REGRESSION);
         log.info("Neural Network created\n");
 
+//        nnet.run(trainSet);
 
-        nnet.train(trainSet);
-/*
+        int iterations = nnet.train(trainSet);
+
+        if(iterations == -1)
+        {
+            System.out.println("\nDid not converge\n");
+        }
+        else {
+            System.out.println("\nConverged in " + iterations + " iterations\n");
+        }
+
         JavaRDD<DoubleMatrix> unlabelledData = (IO.fetchUnlabelledData(sc));
         UnlabelledData data = new UnlabelledData(unlabelledData);
         log.info("Unlabelled Data Loaded\n");
@@ -53,6 +62,5 @@ public class Main
             System.out.println("Output : " + line.getY());
             System.out.println();
         }
-*/
     }
 }

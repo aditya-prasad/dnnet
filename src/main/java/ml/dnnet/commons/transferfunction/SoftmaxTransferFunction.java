@@ -39,4 +39,10 @@ public class SoftmaxTransferFunction implements TransferFunction
         vector = y.mul(vector);
         return vector;
     }
+
+    @Override
+    public String toString()
+    {
+        return "SoftmaxTransferFunction";
+    }
 }

@@ -27,4 +27,10 @@ public class LinearTransferFunction implements TransferFunction
     {
         return DoubleMatrix.ones(vector.length);
     }
+
+    @Override
+    public String toString()
+    {
+        return "LinearTransferFunction";
+    }
 }

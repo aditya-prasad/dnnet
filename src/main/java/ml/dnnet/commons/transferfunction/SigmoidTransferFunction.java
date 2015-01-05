@@ -39,4 +39,10 @@ public class SigmoidTransferFunction implements TransferFunction
         }
         return vector;
     }
+
+    @Override
+    public String toString()
+    {
+        return "SigmoidTransferFunction";
+    }
 }
