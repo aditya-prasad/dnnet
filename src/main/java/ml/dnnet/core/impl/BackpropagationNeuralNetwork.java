@@ -13,7 +13,6 @@ import ml.dnnet.core.process.FeedForward;
 import ml.dnnet.core.process.NumericalGradient;
 import ml.dnnet.core.process.Test;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.Function;
 import org.jblas.DoubleMatrix;
 
 import java.io.BufferedReader;
@@ -84,7 +83,7 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
 
         for (int epoch = 1; epoch <= Constants.MAX_EPOCHS; epoch++)
         {
-            JavaRDD<LabelledDataPoint> data = completeData;
+            JavaRDD<LabelledDataPoint> data = completeData.sample(false, 1.0);
 
             for (int batchIndex = 0; batchIndex < 10; batchIndex++)
             {
@@ -105,19 +104,8 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
                     weightDerivatives.set(i, weightDerivative);
 
                     DoubleMatrix deltaWeight = weightDerivative.mul((-1.0 * Constants.ETA));
-                    //System.out.println("Max = " + deltaWeight.max() + " ; Min = " + deltaWeight.min());
                     layers.get(i).updateWeights(deltaWeight);
-                    layers.get(i).print();
                 }
-                //System.out.println();
-
-                System.out.print("\nProcees? [Y]");
-                String choice = br.readLine();
-                if (choice.equalsIgnoreCase("n"))
-                {
-                    System.exit(0);
-                }
-
 
                 if (isConverged(weightDerivatives))
                 {
@@ -134,16 +122,15 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
             {
                 System.out.println("Completed " + epoch + " iterations");
 
+                JavaRDD<DoubleMatrix> errorRDD = completeData.map(new Test(new FeedForward(layers)));
+                List<DoubleMatrix> errorList = errorRDD.collect();
+                double error = 0.0;
+                for (DoubleMatrix d : errorList)
+                {
+                    error += d.sum();
+                }
+                System.out.println("Error = " + 0.5 * (error / errorList.size()));
             }
-
-            JavaRDD<DoubleMatrix> errorRDD = completeData.map(new Test(new FeedForward(layers)));
-            List<DoubleMatrix> errorList = errorRDD.collect();
-            double error = 0.0;
-            for (DoubleMatrix d : errorList)
-            {
-                error += d.sum();
-            }
-            System.out.println("Error = " + 0.5 * (error / errorList.size()));
         }
 
         for (int i = 0; i < layers.size(); i++)
@@ -154,6 +141,7 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
 
         return -1;
     }
+
 
     @Override
     public LabelledData predict(UnlabelledData unlabelledData) throws Exception
@@ -212,12 +200,16 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
         for (int i = 0; i < count; i++)
         {
             DoubleMatrix weightDerivative = weightDerivatives.get(i);
-            double absMinVal = Math.abs(weightDerivative.min());
-            double absMaxVal = Math.abs(weightDerivative.max());
-
-            if (absMinVal > Constants.WEIGHT_DERIVATIVE_CUTOFF || absMaxVal > Constants.WEIGHT_DERIVATIVE_CUTOFF)
+            for (int row = 0; row < weightDerivative.rows; row++)
             {
-                return false;
+                for (int column = 0; column < weightDerivative.columns; column++)
+                {
+                    double value = Math.abs(weightDerivative.get(row, column));
+                    if (value > Constants.WEIGHT_DERIVATIVE_CUTOFF)
+                    {
+                        return false;
+                    }
+                }
             }
         }
         return true;

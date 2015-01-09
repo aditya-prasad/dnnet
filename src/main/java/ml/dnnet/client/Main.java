@@ -36,15 +36,16 @@ public class Main
         BackpropagationNeuralNetwork nnet = new BackpropagationNeuralNetwork(topography, NeuralNetwork.Mode.REGRESSION);
         log.info("Neural Network created\n");
 
-//        nnet.run(trainSet);
+        //      nnet.run(trainSet);
 
         int iterations = nnet.train(trainSet);
 
-        if(iterations == -1)
+        if (iterations == -1)
         {
             System.out.println("\nDid not converge\n");
         }
-        else {
+        else
+        {
             System.out.println("\nConverged in " + iterations + " iterations\n");
         }
 
@@ -56,7 +57,7 @@ public class Main
         log.info("Prediction Complete\n");
 
         List<LabelledDataPoint> result = predicted.getData().collect();
-        for(LabelledDataPoint line:result)
+        for (LabelledDataPoint line : result)
         {
             System.out.println("Input : " + line.getX());
             System.out.println("Output : " + line.getY());
