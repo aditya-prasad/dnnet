@@ -36,9 +36,9 @@ public class Main
         BackpropagationNeuralNetwork nnet = new BackpropagationNeuralNetwork(topography, NeuralNetwork.Mode.REGRESSION);
         log.info("Neural Network created\n");
 
-        //      nnet.run(trainSet);
+        nnet.gradientCheck(trainSet);
 
-        int iterations = nnet.train(trainSet);
+/*        int iterations = nnet.train(trainSet);
 
         if (iterations == -1)
         {
@@ -62,6 +62,6 @@ public class Main
             System.out.println("Input : " + line.getX());
             System.out.println("Output : " + line.getY());
             System.out.println();
-        }
+        }*/
     }
 }

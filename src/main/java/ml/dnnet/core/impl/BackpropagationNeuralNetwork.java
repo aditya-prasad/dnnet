@@ -39,12 +39,12 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
         return 0.5 * Math.pow((target - calculated), 2.0);
     }
 
-    public void run(LabelledData labelledData) throws Exception
+    @Override
+    public void gradientCheck(LabelledData labelledData) throws Exception
     {
         JavaRDD<LabelledDataPoint> completeData = labelledData.getData();
 
         long batchSize = completeData.count();
-        System.out.println("Batch Size = " + batchSize);
 
         JavaRDD<List<DoubleMatrix>> numericalDerivativeRDD = completeData.map(new NumericalGradient(layers));
         List<DoubleMatrix> neumericalDerivatives = numericalDerivativeRDD.reduce(new BackPropagate(layers));
@@ -54,8 +54,8 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
 
         for (int i = 0; i < weightDerivatives.size(); i++)
         {
-            System.out.println("Backpropagation Derivative " + i + " : " + (weightDerivatives.get(i).mul(1.0 / batchSize)));
-            System.out.println("Neumerical Derivative " + i + "      : " + (neumericalDerivatives.get(i).mul(1.0 / batchSize)));
+            System.out.println("Derivative (Backpropagation) for Layer " + i + " : " + (weightDerivatives.get(i).mul(1.0 / batchSize)));
+            System.out.println("Derivative (Numerical) for Layer" + i + "        : " + (neumericalDerivatives.get(i).mul(1.0 / batchSize)));
             System.out.println();
         }
     }

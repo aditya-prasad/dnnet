@@ -9,6 +9,8 @@ public interface NeuralNetwork
 
     public LabelledData predict(UnlabelledData unlabelledData) throws Exception;
 
+    public void gradientCheck(LabelledData labelledData) throws Exception;
+
     static enum Mode
     {
         REGRESSION,

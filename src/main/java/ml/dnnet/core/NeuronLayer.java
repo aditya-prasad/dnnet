@@ -29,7 +29,7 @@ public class NeuronLayer implements Serializable
 
             weights = DoubleMatrix.rand(neuronCount, (prevLayerNeuronCount + 1));
             weights.subi(0.5);
-            //weights.muli(1.0 / 50.0);
+            weights.muli(2.0);
         }
         else
         {
