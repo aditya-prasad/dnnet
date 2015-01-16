@@ -1,0 +1,216 @@
+[ INFO] 16-01-2015 02:35:41(520) : SparkContext initialized
+
+Enter Input file: hdfs://192.168.1.11:9000/datasets/xor_in.csv
+[ INFO] 16-01-2015 02:35:48(445) : Training Input File : hdfs://192.168.1.11:9000/datasets/xor_in.csv
+Enter Target Output file: hdfs://192.168.1.11:9000/datasets/xor_out.csv       
+[ INFO] 16-01-2015 02:35:56(105) : Training Target Output File : hdfs://192.168.1.11:9000/datasets/xor_out.csv
+[ INFO] 16-01-2015 02:36:11(439) : Input Loaded                                                                                                                          
+
+Enter Topography for the hidden layers (comma separated) : 3,2
+[ INFO] 16-01-2015 02:36:14(624) : Topography Initialized
+
+[ INFO] 16-01-2015 02:36:14(644) : Neural Network created
+
+[DEBUG] 16-01-2015 02:36:16(788) : Derivative (Backpropagation) for Layer 0 : []                                                                                         
+[DEBUG] 16-01-2015 02:36:16(788) : Derivative (Numerical) for Layer0        : []
+
+[DEBUG] 16-01-2015 02:36:16(789) : Derivative (Backpropagation) for Layer 1 : [0.001574, 0.001179, 0.002279; 0.001275, 0.001122, 0.002069; -0.002136, -0.002072, -0.003354]
+[DEBUG] 16-01-2015 02:36:16(790) : Derivative (Numerical) for Layer1        : [0.001574, 0.001179, 0.002279; 0.001275, 0.001122, 0.002069; -0.002136, -0.002072, -0.003354]
+
+[DEBUG] 16-01-2015 02:36:16(790) : Derivative (Backpropagation) for Layer 2 : [0.018083, 0.014016, 0.010358, 0.029481; 0.018469, 0.014379, 0.010558, 0.029833]
+[DEBUG] 16-01-2015 02:36:16(791) : Derivative (Numerical) for Layer2        : [0.018083, 0.014016, 0.010358, 0.029481; 0.018469, 0.014379, 0.010558, 0.029833]
+
+[DEBUG] 16-01-2015 02:36:16(791) : Derivative (Backpropagation) for Layer 3 : [0.120498, 0.216825, 0.268413]
+[DEBUG] 16-01-2015 02:36:16(791) : Derivative (Numerical) for Layer3        : [0.120498, 0.216825, 0.268413]
+
+[ INFO] 16-01-2015 02:36:16(791) : Gradient Checking Complete
+Start training (if Gradient checking was correct) ? [Y] 
+[ INFO] 16-01-2015 02:36:20(495) : Training Started...
+
+[ INFO] 16-01-2015 02:36:20(720) : Learning Rate = 0.15
+[ INFO] 16-01-2015 02:36:20(720) : Maximum Epochs = 10000
+
+[DEBUG] 16-01-2015 02:36:35(230) : Completed 10 iterations; Cost = 0.12507872880272258                                                                                   
+[DEBUG] 16-01-2015 02:36:42(361) : Completed 20 iterations; Cost = 0.12503055902067264                                                                                   
+[DEBUG] 16-01-2015 02:36:48(311) : Completed 30 iterations; Cost = 0.12505325329693295
+[DEBUG] 16-01-2015 02:36:53(546) : Completed 40 iterations; Cost = 0.12500728191987834                                                                                   
+[DEBUG] 16-01-2015 02:36:57(576) : Completed 50 iterations; Cost = 0.12499533793359252
+[DEBUG] 16-01-2015 02:37:01(120) : Completed 60 iterations; Cost = 0.12500115667315403
+[DEBUG] 16-01-2015 02:37:04(566) : Completed 70 iterations; Cost = 0.12499245474859771
+[DEBUG] 16-01-2015 02:37:10(536) : Completed 80 iterations; Cost = 0.12498817027570357
+[DEBUG] 16-01-2015 02:37:14(647) : Completed 90 iterations; Cost = 0.12495800235203615
+[DEBUG] 16-01-2015 02:37:21(880) : Completed 100 iterations; Cost = 0.12494417700167212
+[DEBUG] 16-01-2015 02:37:26(410) : Completed 110 iterations; Cost = 0.12493351752637556
+[DEBUG] 16-01-2015 02:37:30(796) : Completed 120 iterations; Cost = 0.12491989716189274
+[DEBUG] 16-01-2015 02:37:35(105) : Completed 130 iterations; Cost = 0.12492145366359055
+[DEBUG] 16-01-2015 02:37:39(777) : Completed 140 iterations; Cost = 0.12489897317397794
+[DEBUG] 16-01-2015 02:37:46(117) : Completed 150 iterations; Cost = 0.12489826953942017                                                                                  
+[DEBUG] 16-01-2015 02:37:51(322) : Completed 160 iterations; Cost = 0.12487627103983084                                                                                  
+[DEBUG] 16-01-2015 02:37:56(742) : Completed 170 iterations; Cost = 0.12486105319551483
+[DEBUG] 16-01-2015 02:38:01(379) : Completed 180 iterations; Cost = 0.12484851840563081
+[DEBUG] 16-01-2015 02:38:06(530) : Completed 190 iterations; Cost = 0.1248360611429698
+[DEBUG] 16-01-2015 02:38:11(334) : Completed 200 iterations; Cost = 0.12482625096765332
+[DEBUG] 16-01-2015 02:38:16(985) : Completed 210 iterations; Cost = 0.12481459354827233                                                                                  
+[DEBUG] 16-01-2015 02:38:21(977) : Completed 220 iterations; Cost = 0.12479571009883547                                                                                  
+[DEBUG] 16-01-2015 02:38:26(055) : Completed 230 iterations; Cost = 0.12480772168287267
+[DEBUG] 16-01-2015 02:38:35(488) : Completed 240 iterations; Cost = 0.12480979513198269                                                                                  
+[DEBUG] 16-01-2015 02:38:41(570) : Completed 250 iterations; Cost = 0.12475465955749494                                                                                  
+[DEBUG] 16-01-2015 02:38:47(075) : Completed 260 iterations; Cost = 0.12474557563762359                                                                                  
+[DEBUG] 16-01-2015 02:39:38(955) : Completed 270 iterations; Cost = 0.12472561925257106                                                                                  
+[DEBUG] 16-01-2015 02:39:43(973) : Completed 280 iterations; Cost = 0.12473286526620547
+[DEBUG] 16-01-2015 02:39:51(194) : Completed 290 iterations; Cost = 0.12479322963285183                                                                                  
+[DEBUG] 16-01-2015 02:39:58(578) : Completed 300 iterations; Cost = 0.12468501002042515                                                                                  
+[DEBUG] 16-01-2015 02:40:03(407) : Completed 310 iterations; Cost = 0.12474209996509912
+[DEBUG] 16-01-2015 02:40:08(232) : Completed 320 iterations; Cost = 0.12466981628314204
+[DEBUG] 16-01-2015 02:40:14(121) : Completed 330 iterations; Cost = 0.12464143942344243                                                                                  
+[DEBUG] 16-01-2015 02:40:19(487) : Completed 340 iterations; Cost = 0.12459900430667237
+[DEBUG] 16-01-2015 02:40:24(091) : Completed 350 iterations; Cost = 0.12459138401035284
+[DEBUG] 16-01-2015 02:40:28(701) : Completed 360 iterations; Cost = 0.12458137711959527
+[DEBUG] 16-01-2015 02:40:33(152) : Completed 370 iterations; Cost = 0.12453097614192532
+[DEBUG] 16-01-2015 02:40:37(865) : Completed 380 iterations; Cost = 0.12450332572470567
+[DEBUG] 16-01-2015 02:40:42(995) : Completed 390 iterations; Cost = 0.12448719289999259
+[DEBUG] 16-01-2015 02:40:47(719) : Completed 400 iterations; Cost = 0.1245223461512567
+[DEBUG] 16-01-2015 02:40:55(035) : Completed 410 iterations; Cost = 0.12445359809579379                                                                                  
+[DEBUG] 16-01-2015 02:40:59(827) : Completed 420 iterations; Cost = 0.12441001767096463
+[DEBUG] 16-01-2015 02:41:04(480) : Completed 430 iterations; Cost = 0.1244105655614175
+[DEBUG] 16-01-2015 02:41:10(087) : Completed 440 iterations; Cost = 0.12438016456539656
+[DEBUG] 16-01-2015 02:41:14(962) : Completed 450 iterations; Cost = 0.1243325250393422
+[DEBUG] 16-01-2015 02:41:19(803) : Completed 460 iterations; Cost = 0.12428491756178167
+[DEBUG] 16-01-2015 02:41:23(975) : Completed 470 iterations; Cost = 0.1242758919641859
+[DEBUG] 16-01-2015 02:41:27(815) : Completed 480 iterations; Cost = 0.1242075318796296
+[DEBUG] 16-01-2015 02:41:32(065) : Completed 490 iterations; Cost = 0.12416349308800494
+[DEBUG] 16-01-2015 02:41:35(788) : Completed 500 iterations; Cost = 0.12412813371468433
+[DEBUG] 16-01-2015 02:41:40(950) : Completed 510 iterations; Cost = 0.1240789632575987
+[DEBUG] 16-01-2015 02:41:45(771) : Completed 520 iterations; Cost = 0.12409129797848399
+[DEBUG] 16-01-2015 02:41:50(483) : Completed 530 iterations; Cost = 0.12398470187088323
+[DEBUG] 16-01-2015 02:41:55(803) : Completed 540 iterations; Cost = 0.12393283713078386                                                                                  
+[DEBUG] 16-01-2015 02:42:07(037) : Completed 550 iterations; Cost = 0.12388392720383182                                                                                  
+[DEBUG] 16-01-2015 02:42:14(035) : Completed 560 iterations; Cost = 0.12391333205899376                                                                                  
+[DEBUG] 16-01-2015 02:42:20(401) : Completed 570 iterations; Cost = 0.12377060857929038                                                                                  
+[DEBUG] 16-01-2015 02:42:25(162) : Completed 580 iterations; Cost = 0.12374042891296463
+[DEBUG] 16-01-2015 02:42:30(448) : Completed 590 iterations; Cost = 0.12365341901625657                                                                                  
+[DEBUG] 16-01-2015 02:42:34(911) : Completed 600 iterations; Cost = 0.12359672385397577
+[DEBUG] 16-01-2015 02:42:39(446) : Completed 610 iterations; Cost = 0.12352993721538011
+[DEBUG] 16-01-2015 02:42:44(237) : Completed 620 iterations; Cost = 0.12344896158541034
+[DEBUG] 16-01-2015 02:42:50(222) : Completed 630 iterations; Cost = 0.12337962699863145                                                                                  
+[DEBUG] 16-01-2015 02:42:54(748) : Completed 640 iterations; Cost = 0.123306036702834
+[DEBUG] 16-01-2015 02:42:59(811) : Completed 650 iterations; Cost = 0.12320867519107558
+[DEBUG] 16-01-2015 02:43:05(618) : Completed 660 iterations; Cost = 0.12311827156682108
+[DEBUG] 16-01-2015 02:43:10(491) : Completed 670 iterations; Cost = 0.12313063387931217
+[DEBUG] 16-01-2015 02:43:17(134) : Completed 680 iterations; Cost = 0.12296099023856044                                                                                  
+[DEBUG] 16-01-2015 02:43:21(540) : Completed 690 iterations; Cost = 0.1228475596644051
+[DEBUG] 16-01-2015 02:43:26(378) : Completed 700 iterations; Cost = 0.12271942948267388
+[DEBUG] 16-01-2015 02:43:31(330) : Completed 710 iterations; Cost = 0.12283646003696384
+[DEBUG] 16-01-2015 02:43:36(192) : Completed 720 iterations; Cost = 0.12249363241749729
+[DEBUG] 16-01-2015 02:43:41(325) : Completed 730 iterations; Cost = 0.12236161742771386
+[DEBUG] 16-01-2015 02:43:48(500) : Completed 740 iterations; Cost = 0.12221647055821536                                                                                  
+[DEBUG] 16-01-2015 02:43:52(980) : Completed 750 iterations; Cost = 0.12212459402393684
+[DEBUG] 16-01-2015 02:43:57(742) : Completed 760 iterations; Cost = 0.12190863581126121
+[DEBUG] 16-01-2015 02:44:05(434) : Completed 770 iterations; Cost = 0.12173621752934688
+[DEBUG] 16-01-2015 02:44:10(202) : Completed 780 iterations; Cost = 0.12155013224353306
+[DEBUG] 16-01-2015 02:44:14(771) : Completed 790 iterations; Cost = 0.12140205543542824
+[DEBUG] 16-01-2015 02:44:20(775) : Completed 800 iterations; Cost = 0.12112187288466926                                                                                  
+[DEBUG] 16-01-2015 02:44:26(022) : Completed 810 iterations; Cost = 0.12091761210176899                                                                                  
+[DEBUG] 16-01-2015 02:44:30(870) : Completed 820 iterations; Cost = 0.12066341169296207
+[DEBUG] 16-01-2015 02:44:35(734) : Completed 830 iterations; Cost = 0.12038720881529177
+[DEBUG] 16-01-2015 02:44:59(593) : Completed 840 iterations; Cost = 0.1201069818516633                                                                                   
+[DEBUG] 16-01-2015 02:45:12(464) : Completed 850 iterations; Cost = 0.11977450719533862                                                                                  
+[DEBUG] 16-01-2015 02:45:17(152) : Completed 860 iterations; Cost = 0.1194130506421046
+[DEBUG] 16-01-2015 02:45:21(746) : Completed 870 iterations; Cost = 0.11904888913059553
+[DEBUG] 16-01-2015 02:45:26(822) : Completed 880 iterations; Cost = 0.11861384165255051                                                                                  
+[DEBUG] 16-01-2015 02:45:31(654) : Completed 890 iterations; Cost = 0.11816897126378284
+[DEBUG] 16-01-2015 02:45:36(458) : Completed 900 iterations; Cost = 0.11772271622578746
+[DEBUG] 16-01-2015 02:45:42(323) : Completed 910 iterations; Cost = 0.11717379679517533
+[DEBUG] 16-01-2015 02:45:49(924) : Completed 920 iterations; Cost = 0.11660252118429706                                                                                  
+[DEBUG] 16-01-2015 02:45:56(515) : Completed 930 iterations; Cost = 0.11607286835812539                                                                                  
+[DEBUG] 16-01-2015 02:46:01(727) : Completed 940 iterations; Cost = 0.11532937292904052
+[DEBUG] 16-01-2015 02:46:07(430) : Completed 950 iterations; Cost = 0.1146102522919195
+[DEBUG] 16-01-2015 02:46:13(588) : Completed 960 iterations; Cost = 0.11389790859487134                                                                                  
+[DEBUG] 16-01-2015 02:46:19(471) : Completed 970 iterations; Cost = 0.11302657146679178                                                                                  
+[DEBUG] 16-01-2015 02:46:25(320) : Completed 980 iterations; Cost = 0.11209518168411534                                                                                  
+[DEBUG] 16-01-2015 02:46:29(800) : Completed 990 iterations; Cost = 0.11118014735866057
+[DEBUG] 16-01-2015 02:46:36(072) : Completed 1000 iterations; Cost = 0.11012229732660313                                                                                 
+[DEBUG] 16-01-2015 02:46:41(094) : Completed 1010 iterations; Cost = 0.10910190546458681
+[DEBUG] 16-01-2015 02:46:45(578) : Completed 1020 iterations; Cost = 0.10793108560409558
+[DEBUG] 16-01-2015 02:46:50(432) : Completed 1030 iterations; Cost = 0.10663795406569966
+[DEBUG] 16-01-2015 02:46:55(247) : Completed 1040 iterations; Cost = 0.10534871961656082
+[DEBUG] 16-01-2015 02:46:59(751) : Completed 1050 iterations; Cost = 0.10398280468354698
+[DEBUG] 16-01-2015 02:47:09(456) : Completed 1060 iterations; Cost = 0.10252562929663973                                                                                 
+[DEBUG] 16-01-2015 02:47:14(393) : Completed 1070 iterations; Cost = 0.10081655522654105
+[DEBUG] 16-01-2015 02:47:19(067) : Completed 1080 iterations; Cost = 0.09901039054916427
+[DEBUG] 16-01-2015 02:47:23(987) : Completed 1090 iterations; Cost = 0.09689424052548824                                                                                 
+[DEBUG] 16-01-2015 02:47:29(291) : Completed 1100 iterations; Cost = 0.09436226982653952                                                                                 
+[DEBUG] 16-01-2015 02:47:34(466) : Completed 1110 iterations; Cost = 0.09132128659263078
+[DEBUG] 16-01-2015 02:47:39(292) : Completed 1120 iterations; Cost = 0.08741629661599669
+[DEBUG] 16-01-2015 02:47:43(716) : Completed 1130 iterations; Cost = 0.08225995310557402
+[DEBUG] 16-01-2015 02:47:49(146) : Completed 1140 iterations; Cost = 0.07543376676917747
+[DEBUG] 16-01-2015 02:47:54(112) : Completed 1150 iterations; Cost = 0.06630256600556876
+[DEBUG] 16-01-2015 02:47:58(620) : Completed 1160 iterations; Cost = 0.054873458882223024
+[DEBUG] 16-01-2015 02:48:04(048) : Completed 1170 iterations; Cost = 0.0419241728927024
+[DEBUG] 16-01-2015 02:48:08(480) : Completed 1180 iterations; Cost = 0.028865694462786282
+[DEBUG] 16-01-2015 02:48:12(944) : Completed 1190 iterations; Cost = 0.017708438784209333
+[DEBUG] 16-01-2015 02:48:17(514) : Completed 1200 iterations; Cost = 0.009632974914483491
+[DEBUG] 16-01-2015 02:48:22(360) : Completed 1210 iterations; Cost = 0.004744712921324438
+[DEBUG] 16-01-2015 02:48:27(825) : Completed 1220 iterations; Cost = 0.002154366108073215
+[DEBUG] 16-01-2015 02:48:32(752) : Completed 1230 iterations; Cost = 9.167079593492656E-4
+[DEBUG] 16-01-2015 02:48:37(666) : Completed 1240 iterations; Cost = 3.7390489105981045E-4
+[DEBUG] 16-01-2015 02:48:42(172) : Completed 1250 iterations; Cost = 1.4982036623580676E-4
+[DEBUG] 16-01-2015 02:48:46(666) : Completed 1260 iterations; Cost = 5.857724061986569E-5
+[DEBUG] 16-01-2015 02:48:51(202) : Completed 1270 iterations; Cost = 2.2705038233576285E-5
+[DEBUG] 16-01-2015 02:48:57(307) : Completed 1280 iterations; Cost = 8.678731671011608E-6
+[DEBUG] 16-01-2015 02:49:02(366) : Completed 1290 iterations; Cost = 3.3091895732766564E-6
+[DEBUG] 16-01-2015 02:49:07(714) : Completed 1300 iterations; Cost = 1.2601270126456445E-6                                                                               
+[ INFO] 16-01-2015 02:49:10(497) : Training complete
+
+[ INFO] 16-01-2015 02:49:10(510) : Converged in 1307 iterations
+
+Enter Input file: hdfs://192.168.1.11:9000/datasets/xor_test.csv
+[ INFO] 16-01-2015 02:51:15(462) : Prediction Input File : hdfs://192.168.1.11:9000/datasets/xor_test.csv
+[ INFO] 16-01-2015 02:51:23(635) : Unlabelled Data Loaded
+
+[ INFO] 16-01-2015 02:51:23(883) : Prediction Complete
+
+Input : [0.000000; 1.000000]
+Output : [0.998419]
+
+Input : [1.000000; 1.000000]
+Output : [0.000683]
+
+Input : [1.000000; 1.000000]
+Output : [0.000683]
+
+Input : [1.000000; 1.000000]
+Output : [0.000683]
+
+Input : [0.000000; 1.000000]
+Output : [0.998419]
+
+Input : [1.000000; 1.000000]
+Output : [0.000683]
+
+Input : [1.000000; 1.000000]
+Output : [0.000683]
+
+Input : [0.000000; 0.000000]
+Output : [0.001534]
+
+Input : [1.000000; 0.000000]
+Output : [0.999368]
+
+Input : [0.000000; 1.000000]
+Output : [0.998419]
+
+Input : [0.000000; 0.000000]
+Output : [0.001534]
+
+Input : [0.000000; 1.000000]
+Output : [0.998419]
+
+Input : [1.000000; 1.000000]
+Output : [0.000683]
+
+Input : [0.000000; 1.000000]
+Output : [0.998419]
+
+Input : [0.000000; 0.000000]
+Output : [0.001534]
