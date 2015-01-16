@@ -28,9 +28,11 @@ public class IO
 
         System.out.print("Enter Input file: ");
         String xSource = in.readLine();
+        log.info("Training Input File : " + xSource);
 
         System.out.print("Enter Target Output file: ");
         String ySource = in.readLine();
+        log.info("Training Target Output File : " + ySource);
 
         JavaRDD<String> xRawRDD = sc.textFile(xSource, sc.textFile$default$2()).toJavaRDD();
         JavaRDD<String> yRawRDD = sc.textFile(ySource, sc.textFile$default$2()).toJavaRDD();
@@ -52,7 +54,8 @@ public class IO
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.print("Enter Input file: ");
-        String xSource = in.readLine();in.readLine();
+        String xSource = in.readLine();
+        log.info("Prediction Input File : " + xSource);
 
         JavaRDD<String> xRawRDD = sc.textFile(xSource, sc.textFile$default$2()).toJavaRDD();
 

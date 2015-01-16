@@ -14,6 +14,8 @@ import org.apache.spark.api.java.JavaRDD;
 import org.jblas.DoubleMatrix;
 import org.slf4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class Main
@@ -22,6 +24,8 @@ public class Main
 
     public static void main(String args[]) throws Exception
     {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         SparkConf sparkConf = new SparkConf().setAppName("NeuralNetwork");
         SparkContext sc = new SparkContext(sparkConf);
         log.info("SparkContext initialized\n");
@@ -37,16 +41,26 @@ public class Main
         log.info("Neural Network created\n");
 
         nnet.gradientCheck(trainSet);
+        log.info("Gradient Checking Complete");
 
-/*        int iterations = nnet.train(trainSet);
+        System.out.print("Start training (if Gradient checking was correct) ? [Y] ");
+        String choice = br.readLine();
+        if (!choice.isEmpty() && choice.toLowerCase().charAt(0) == 'n')
+        {
+            System.exit(0);
+        }
+
+        log.info("Training Started...\n");
+        int iterations = nnet.train(trainSet);
+        log.info("Training complete\n");
 
         if (iterations == -1)
         {
-            System.out.println("\nDid not converge\n");
+            log.info("Did not converge\n");
         }
         else
         {
-            System.out.println("\nConverged in " + iterations + " iterations\n");
+            log.info("Converged in " + iterations + " iterations\n");
         }
 
         JavaRDD<DoubleMatrix> unlabelledData = (IO.fetchUnlabelledData(sc));
@@ -62,6 +76,6 @@ public class Main
             System.out.println("Input : " + line.getX());
             System.out.println("Output : " + line.getY());
             System.out.println();
-        }*/
+        }
     }
 }

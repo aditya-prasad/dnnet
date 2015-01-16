@@ -13,7 +13,7 @@ public class Log
 {
     public static Logger getLogger(Class<?> clazz)
     {
-        LogManager.getLogger(clazz).setLevel(Level.INFO);
+        LogManager.getLogger(clazz).setLevel(Level.ALL);
         LogManager.getLogger(clazz).setAdditivity(false);
 
         ConsoleAppender appender = new ConsoleAppender();

@@ -5,23 +5,25 @@ import ml.dnnet.commons.data.LabelledDataPoint;
 import ml.dnnet.commons.data.UnlabelledData;
 import ml.dnnet.commons.transferfunction.TransferFunction;
 import ml.dnnet.commons.transferfunction.TransferFunctionFactory;
+import ml.dnnet.commons.util.Log;
 import ml.dnnet.core.Constants;
 import ml.dnnet.core.NeuralNetwork;
 import ml.dnnet.core.NeuronLayer;
 import ml.dnnet.core.process.BackPropagate;
 import ml.dnnet.core.process.FeedForward;
 import ml.dnnet.core.process.NumericalGradient;
-import ml.dnnet.core.process.Test;
+import ml.dnnet.core.process.Cost;
 import org.apache.spark.api.java.JavaRDD;
 import org.jblas.DoubleMatrix;
+import org.slf4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BackpropagationNeuralNetwork implements NeuralNetwork
 {
+    static Logger log = Log.getLogger(BackpropagationNeuralNetwork.class);
+
     private Mode mode;
     private List<Integer> topography;
     public List<NeuronLayer> layers;
@@ -32,11 +34,6 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
         this.topography = topography;
 
         initLayers();
-    }
-
-    public double calcCost(double target, double calculated)
-    {
-        return 0.5 * Math.pow((target - calculated), 2.0);
     }
 
     @Override
@@ -54,32 +51,20 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
 
         for (int i = 0; i < weightDerivatives.size(); i++)
         {
-            System.out.println("Derivative (Backpropagation) for Layer " + i + " : " + (weightDerivatives.get(i).mul(1.0 / batchSize)));
-            System.out.println("Derivative (Numerical) for Layer" + i + "        : " + (neumericalDerivatives.get(i).mul(1.0 / batchSize)));
-            System.out.println();
+            log.debug("Derivative (Backpropagation) for Layer " + i + " : " + (weightDerivatives.get(i).mul(1.0 / batchSize)));
+            log.debug("Derivative (Numerical) for Layer" + i + "        : " + (neumericalDerivatives.get(i).mul(1.0 / batchSize)) + "\n");
         }
     }
 
     @Override
     public int train(LabelledData labelledData) throws Exception
     {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         JavaRDD<LabelledDataPoint> completeData = labelledData.getData();
         completeData.cache();
 
-        System.out.println("\nTraining Started");
-        System.out.println("Learning Rate = " + Constants.ETA);
-        System.out.println("Maximum Epochs = " + Constants.MAX_EPOCHS);
-        System.out.println();
+        log.info("Learning Rate = " + Constants.ETA);
+        log.info("Maximum Epochs = " + Constants.MAX_EPOCHS + "\n");
 
-        System.out.println();
-
-        for (int i = 0; i < layers.size(); i++)
-        {
-            layers.get(i).print();
-        }
-        System.out.println();
 
         for (int epoch = 1; epoch <= Constants.MAX_EPOCHS; epoch++)
         {
@@ -109,35 +94,23 @@ public class BackpropagationNeuralNetwork implements NeuralNetwork
 
                 if (isConverged(weightDerivatives))
                 {
-                    for (int i = 0; i < layers.size(); i++)
-                    {
-                        layers.get(i).print();
-                    }
-                    System.out.println();
                     return epoch;
                 }
             }
 
             if (epoch % 10 == 0)
             {
-                System.out.println("Completed " + epoch + " iterations");
-
-                JavaRDD<DoubleMatrix> errorRDD = completeData.map(new Test(new FeedForward(layers)));
-                List<DoubleMatrix> errorList = errorRDD.collect();
-                double error = 0.0;
-                for (DoubleMatrix d : errorList)
+                Cost costCalculator = new Cost(mode, new FeedForward(layers));
+                JavaRDD<Double> costRDD = completeData.map(costCalculator);
+                List<Double> costList = costRDD.collect();
+                double totalCost = 0.0;
+                for (Double cost : costList)
                 {
-                    error += d.sum();
+                    totalCost += cost;
                 }
-                System.out.println("Error = " + 0.5 * (error / errorList.size()));
+                log.debug("Completed " + epoch + " iterations; Cost = " + (totalCost / costList.size()));
             }
         }
-
-        for (int i = 0; i < layers.size(); i++)
-        {
-            layers.get(i).print();
-        }
-        System.out.println();
 
         return -1;
     }
